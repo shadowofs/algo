@@ -1,25 +1,27 @@
-from typing import List
+# encoding: utf-8
+# a = input("please input a number:")
+def repeat(s):
+    length = len(s)
+    subLen = 1
+    while subLen <= length // 2:
+        if length % subLen != 0:
+            subLen += 1
+            continue
 
+        cur = 0
+        while cur < length:
+            if s[cur % subLen] != s[cur]:
+                break
+            cur += 1
+        if cur == length:
+            return True
 
-class Solution:
-    def maxSubarraySumCircular(self, nums: List[int]) -> int:
-        if len(nums) == 1:
-            return nums[0]
+        subLen += 1
 
-        total = sum(nums)
-        globalmax = -30001
-        leftmin = 30001
-        leftmax = -30001
-        leftsum = 0
-        for i in range(len(nums)):
-            leftsum += nums[i]
-            globalmax = max(leftsum, leftsum - leftmin, globalmax)
-            if i != len(nums) - 1:
-                globalmax = max(total - leftsum, total - leftsum + leftmax, globalmax)
-            leftmin = min(leftmin, leftsum)
-            leftmax = max(leftmax, leftsum)
+    return False
 
-        return globalmax
 
 if __name__ == "__main__":
-    print(Solution().maxSubarraySumCircular([-3,-2,-3]))
+    print(repeat("abab"))
+    print(repeat("aba"))
+    print(repeat("abcabcabc"))
